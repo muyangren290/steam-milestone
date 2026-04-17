@@ -346,9 +346,11 @@
   const cards = document.querySelectorAll('.station-card[data-keywords]');
   const noResult = document.getElementById('noResult');
 
-  input.addEventListener('input', () => {
+  let visibleLinks = [];
+
+  function doFilter() {
     const q = input.value.trim().toLowerCase();
-    let visible = 0;
+    visibleLinks = [];
 
     cards.forEach(card => {
       const kw = card.dataset.keywords || '';
@@ -361,12 +363,21 @@
         card.classList.add('hidden');
       } else {
         card.classList.toggle('hidden', !hit);
-        if (hit) visible++;
+        if (hit && card.hasAttribute('href')) visibleLinks.push(card);
       }
     });
 
     // 没有结果时显示占位也不算
-    noResult.classList.toggle('show', visible === 0 && q !== '');
+    noResult.classList.toggle('show', visibleLinks.length === 0 && q !== '');
+  }
+
+  input.addEventListener('input', doFilter);
+
+  // 回车：如果只剩一个结果则直接跳转；多个结果跳转第一个
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && visibleLinks.length > 0) {
+      window.location.href = visibleLinks[0].href;
+    }
   });
 </script>
 </body>
