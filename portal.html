@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>小站里程碑 · 合集</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #1a1b2e;
+      --surface: #22233a;
+      --card:    #2a2b45;
+      --border:  rgba(255,255,255,0.10);
+      --accent1: #7c6af5;
+      --accent2: #4ecac8;
+      --accent3: #f5a623;
+      --accent4: #e85d75;
+      --text:    #eeeef8;
+      --muted:   #8f8fb0;
+      --glow1:   rgba(124,106,245,0.3);
+      --glow2:   rgba(78,202,200,0.25);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ===== 背景光晕 ===== */
+    .bg-deco {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 20% 20%, rgba(124,106,245,0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 35% at 80% 80%, rgba(78,202,200,0.15) 0%, transparent 70%);
+    }
+
+    /* ===== 主体容器 ===== */
+    .container {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 860px;
+      padding: 80px 24px 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 56px;
+    }
+
+    /* ===== Hero ===== */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(124,106,245,0.12);
+      border: 1px solid rgba(124,106,245,0.3);
+      border-radius: 999px;
+      padding: 6px 18px;
+      font-size: 0.78rem;
+      color: var(--accent1);
+      letter-spacing: 0.04em;
+    }
+
+    .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent1);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(1.4); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 6vw, 3.4rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      background: linear-gradient(135deg, #fff 20%, var(--accent1) 60%, var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 0.95rem;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+    }
+
+    /* ===== 搜索框 ===== */
+    .search-wrap {
+      width: 100%;
+      max-width: 520px;
+      position: relative;
+    }
+
+    .search-wrap input {
+      width: 100%;
+      padding: 16px 56px 16px 22px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      color: var(--text);
+      font-size: 1rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      caret-color: var(--accent1);
+    }
+
+    .search-wrap input::placeholder { color: var(--muted); }
+
+    .search-wrap input:focus {
+      border-color: rgba(124,106,245,0.5);
+      box-shadow: 0 0 0 3px rgba(124,106,245,0.12);
+    }
+
+    .search-icon {
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+      font-size: 1.1rem;
+    }
+
+    /* ===== 小站卡片列表 ===== */
+    .stations-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .station-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .station-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--c1), var(--c2));
+      border-radius: 18px 18px 0 0;
+      opacity: 0.85;
+    }
+
+    .station-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.35);
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    .card-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      background: rgba(255,255,255,0.05);
+      flex-shrink: 0;
+    }
+
+    .card-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .card-desc {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .card-stats {
+      margin-top: auto;
+      display: flex;
+      gap: 14px;
+    }
+
+    .stat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .stat-pill span {
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .card-arrow {
+      position: absolute;
+      bottom: 22px; right: 22px;
+      font-size: 1rem;
+      color: var(--muted);
+      transition: transform 0.2s, color 0.2s;
+    }
+
+    .station-card:hover .card-arrow {
+      transform: translate(3px, -3px);
+      color: var(--text);
+    }
+
+    /* 隐藏（搜索过滤用）*/
+    .station-card.hidden { display: none; }
+
+    /* ===== 无结果提示 ===== */
+    .no-result {
+      display: none;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+      padding: 40px 0;
+    }
+
+    .no-result.show { display: block; }
+
+    /* ===== 底部 ===== */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.78rem;
+      padding-bottom: 40px;
+      letter-spacing: 0.03em;
+    }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 540px) {
+      .stations-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-deco"></div>
+
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      成长里程碑合集
+    </div>
+    <h1>小站里程碑</h1>
+    <p class="hero-sub">搜索或点击，进入对应小站的成长记录</p>
+  </div>
+
+  <!-- 搜索框 -->
+  <div class="search-wrap">
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="搜索小站，例如：Steam、动画…"
+      autocomplete="off"
+    />
+    <span class="search-icon">🔍</span>
+  </div>
+
+  <!-- 小站卡片 -->
+  <div class="stations-grid" id="stationsGrid">
+
+    <!-- Steam 小站 -->
+    <a
+      class="station-card"
+      href="./index.html"
+      style="--c1:#7c6af5;--c2:#4ecac8;"
+      data-keywords="steam 游戏 小站 steam小站 游戏社区"
+    >
+      <div class="card-icon">🎮</div>
+      <div class="card-name">Steam 小站</div>
+      <div class="card-desc">游戏与动画同好的聚集地，一起聊游戏、种草、分享攻略。</div>
+      <div class="card-stats">
+        <div class="stat-pill">用户 <span>1万+</span></div>
+        <div class="stat-pill">帖子 <span>1万+</span></div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+
+    <!-- 占位卡片：即将上线 -->
+    <div
+      class="station-card"
+      style="--c1:#f5a623;--c2:#e85d75; cursor:default; opacity:0.45;"
+      data-keywords=""
+    >
+      <div class="card-icon">✨</div>
+      <div class="card-name" style="color:var(--muted);">更多小站</div>
+      <div class="card-desc">敬请期待，新的小站正在成长中……</div>
+      <div class="card-stats">
+        <div class="stat-pill">即将上线</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 无结果 -->
+  <div class="no-result" id="noResult">没有找到匹配的小站，换个关键词试试？</div>
+
+</div>
+
+<footer>© 2025 小站里程碑合集</footer>
+
+<script>
+  const input = document.getElementById('searchInput');
+  const cards = document.querySelectorAll('.station-card[data-keywords]');
+  const noResult = document.getElementById('noResult');
+
+  input.addEventListener('input', () => {
+    const q = input.value.trim().toLowerCase();
+    let visible = 0;
+
+    cards.forEach(card => {
+      const kw = card.dataset.keywords || '';
+      const name = card.querySelector('.card-name')?.textContent.toLowerCase() || '';
+      const desc = card.querySelector('.card-desc')?.textContent.toLowerCase() || '';
+      const hit = !q || kw.includes(q) || name.includes(q) || desc.includes(q);
+
+      // 占位卡片（无 href）不参与搜索显示
+      if (!card.hasAttribute('href') && q) {
+        card.classList.add('hidden');
+      } else {
+        card.classList.toggle('hidden', !hit);
+        if (hit) visible++;
+      }
+    });
+
+    // 没有结果时显示占位也不算
+    noResult.classList.toggle('show', visible === 0 && q !== '');
+  });
+</script>
+</body>
+</html>
