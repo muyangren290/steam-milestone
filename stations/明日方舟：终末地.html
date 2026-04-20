@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>明日方舟：终末地 · 成长里程碑</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #1a1b2e; --surface: #22233a; --card: #2a2b45;
+      --border: rgba(255,255,255,0.10);
+      --accent1: #ff7675; --accent2: #fd79a8;
+      --accent3: #f5a623; --accent4: #e85d75;
+      --text: #eeeef8; --muted: #8f8fb0;
+      --glow1: #ff76754d; --glow2: #fd79a840;
+      --timeline-w: 3px;
+      --accent5:#4ecdc4;
+      --accent6:#ff6b6b;
+      --accent7:#ffe66d;
+      --accent8:#a8e6cf;
+      --glow5:rgba(78,205,196,0.3);
+      --glow6:rgba(255,107,107,0.3);
+      --glow7:rgba(255,230,109,0.3);
+      --glow8:rgba(168,230,207,0.3);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; overflow-x: hidden;
+    }
+    .bg-deco {
+      position:fixed;inset:0;pointer-events:none;z-index:0;
+      background:
+        radial-gradient(ellipse 60% 40% at 20% 20%, #ff76752e 0%, transparent 70%),
+        radial-gradient(ellipse 50% 35% at 80% 80%, #fd79a826 0%, transparent 70%);
+    }
+    .hero { position:relative;z-index:1;text-align:center;padding:72px 20px 56px; }
+    .hero-badge {
+      display:inline-flex;align-items:center;gap:8px;
+      background:#ff767526;border:1px solid #ff767566;border-radius:99px;
+      padding:6px 18px;font-size:13px;color:#ff7675;letter-spacing:0.04em;margin-bottom:24px;
+    }
+    .hero-badge .dot {
+      width:7px;height:7px;border-radius:50%;background:#ff7675;
+      animation:pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.75)} }
+    .hero h1 {
+      font-size:clamp(28px,5vw,52px);font-weight:800;letter-spacing:-0.02em;line-height:1.15;
+      background:linear-gradient(135deg,#fff 0%,#ff7675 50%,#fd79a8 100%);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    }
+    .hero .founded {
+      margin-top:12px;display:inline-flex;align-items:center;gap:8px;
+      font-size:13px;color:#fd79a8;opacity:0.9;
+    }
+    .hero .founded svg { flex-shrink:0; }
+    .stats-row {
+      position:relative;z-index:1;display:flex;flex-wrap:wrap;justify-content:center;
+      gap:16px;max-width:960px;margin:0 auto 64px;padding:0 20px;
+    }
+    .stat-card {
+      background:var(--card);border:1px solid var(--border);border-radius:16px;
+      padding:20px 28px;min-width:140px;flex:1 1 140px;max-width:200px;text-align:center;
+      transition:transform 0.25s,box-shadow 0.25s;
+    }
+    .stat-card:hover { transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.4); }
+    .stat-card .num {
+      font-size:28px;font-weight:800;
+      background:linear-gradient(135deg,#ff7675,#fd79a8);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    }
+    .stat-card .label { margin-top:6px;font-size:11px;color:var(--muted);letter-spacing:0.05em; }
+    .legend {
+      position:relative;z-index:1;max-width:960px;margin:0 auto 48px;padding:16px 24px;
+      background:var(--card);border:1px solid var(--border);border-radius:16px;
+      display:flex;flex-wrap:wrap;gap:16px;
+    }
+    .legend-item { display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted); }
+    .legend-dot { width:10px;height:10px;border-radius:50%;flex-shrink:0; }
+    .timeline-wrap { position:relative;z-index:1;max-width:960px;margin:0 auto 72px;padding:0 20px; }
+    .timeline-wrap::before {
+      content:'';position:absolute;left:50%;top:0;bottom:0;width:var(--timeline-w);
+      background:linear-gradient(to bottom,transparent,#ff7675 8%,#fd79a8 92%,transparent);
+      transform:translateX(-50%);border-radius:99px;
+    }
+    .tl-item { position:relative;display:flex;width:100%;margin-bottom:32px; }
+    .tl-item.left { flex-direction:row-reverse; }
+    .tl-item.right { flex-direction:row; }
+    .tl-node { position:absolute;left:50%;top:24px;transform:translate(-50%,-50%);z-index:2; }
+    .node-dot { width:14px;height:14px;border-radius:50%;border:2px solid var(--bg);transition:transform 0.25s; }
+    .tl-item:hover .node-dot { transform:scale(1.4); }
+    .cat-user     .node-dot { background:var(--accent1);box-shadow:0 0 10px var(--glow1); }
+    .cat-user-day .node-dot { background:var(--accent2);box-shadow:0 0 10px var(--glow2); }
+    .cat-post     .node-dot { background:var(--accent3);box-shadow:0 0 10px rgba(245,166,35,0.35); }
+    .cat-post-day .node-dot { background:var(--accent4);box-shadow:0 0 10px rgba(232,93,117,0.35); }
+    .cat-found    .node-dot { background:#fff;box-shadow:0 0 12px rgba(255,255,255,0.4); }
+    
+    .cat-comment .node-dot { background: var(--accent5); box-shadow: 0 0 10px var(--glow5); }
+    .cat-like   .node-dot { background: var(--accent6); box-shadow: 0 0 10px var(--glow6); }
+    .cat-fav    .node-dot { background: var(--accent7); box-shadow: 0 0 10px var(--glow7); }
+    .cat-share  .node-dot { background: var(--accent8); box-shadow: 0 0 10px var(--glow8); }
+    .cat-comment .milestone-num { color: var(--accent5); }
+    .cat-like   .milestone-num { color: var(--accent6); }
+    .cat-fav    .milestone-num { color: var(--accent7); }
+    .cat-share  .milestone-num { color: var(--accent8); }
+    .cat-comment .tl-card:hover { border-color: rgba(78,205,196,0.5); }
+    .cat-like   .tl-card:hover { border-color: rgba(255,107,107,0.5); }
+    .cat-fav    .tl-card:hover { border-color: rgba(255,230,109,0.5); }
+    .cat-share  .tl-card:hover { border-color: rgba(168,230,207,0.5); }
+  
+    .tl-card {
+      width:calc(50% - 32px);background:var(--card);border:1px solid var(--border);
+      border-radius:16px;padding:18px 22px;transition:transform 0.25s,box-shadow 0.25s,border-color 0.25s;cursor:default;
+    }
+    .tl-item.left .tl-card { margin-right:32px; }
+    .tl-item.right .tl-card { margin-left:32px; }
+    .tl-card:hover { transform:translateY(-3px);box-shadow:0 10px 36px rgba(0,0,0,0.45); }
+    .cat-user     .tl-card:hover { border-color:#ff767580; }
+    .cat-user-day .tl-card:hover { border-color:#fd79a880; }
+    .cat-post     .tl-card:hover { border-color:rgba(245,166,35,0.5); }
+    .cat-post-day .tl-card:hover { border-color:rgba(232,93,117,0.5); }
+    .cat-found    .tl-card:hover { border-color:rgba(255,255,255,0.4); }
+    .tl-date { font-size:11px;color:var(--muted);letter-spacing:0.06em;margin-bottom:8px; }
+    .tl-title { font-size:15px;font-weight:700;line-height:1.4;color:var(--text);margin-bottom:10px; }
+    .tl-title .milestone-num { display:inline-block;font-size:20px;font-weight:900; }
+    .cat-user     .milestone-num { color:var(--accent1); }
+    .cat-user-day .milestone-num { color:var(--accent2); }
+    .cat-post     .milestone-num { color:var(--accent3); }
+    .cat-post-day .milestone-num { color:var(--accent4); }
+    .cat-found    .milestone-num { color:#fff; }
+    .tl-actual {
+      display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);
+      background:rgba(255,255,255,0.05);border-radius:8px;padding:4px 10px;
+    }
+    .tl-actual .actual-val { font-weight:700;color:var(--text); }
+    .tl-pending .tl-card { opacity:0.55;border-style:dashed; }
+    .tl-pending .node-dot { background:transparent!important;border-color:var(--muted)!important;box-shadow:none!important; }
+    .pending-badge {
+      display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);
+      background:rgba(255,255,255,0.04);border:1px dashed rgba(255,255,255,0.15);
+      border-radius:8px;padding:4px 10px;
+    }
+    .founded-card {
+      background:linear-gradient(135deg,#ff76752e,#fd79a81f);
+      border-color:#ff767566!important;
+    }
+    .founded-card .tl-title { font-size:17px; }
+    footer {
+      position:relative;z-index:1;text-align:center;padding:32px 20px 48px;
+      font-size:12px;color:var(--muted);border-top:1px solid var(--border);
+    }
+    footer span { color:#ff7675; }
+    .back-link {
+      position:relative;z-index:1;display:inline-flex;align-items:center;gap:6px;
+      color:var(--muted);font-size:13px;text-decoration:none;margin:20px auto 0;
+      transition:color 0.2s;
+    }
+    .back-link:hover { color:var(--text); }
+    @media (max-width:640px) {
+      .timeline-wrap::before { left:18px; }
+      .tl-item,.tl-item.left,.tl-item.right { flex-direction:column;padding-left:44px; }
+      .tl-node { left:18px;top:20px; }
+      .tl-card,.tl-item.left .tl-card,.tl-item.right .tl-card { width:100%;margin-left:0;margin-right:0; }
+      .stats-row { gap:10px; }
+      .stat-card { max-width:none; }
+    }
+  </style>
+</head>
+<body>
+<div class="bg-deco"></div>
+<section class="hero">
+  <div class="hero-badge"><span class="dot"></span>B站 明日方舟：终末地 小站</div>
+  <h1>成长里程碑</h1>
+  <div class="founded" style="margin-top:20px;">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    建站于 2025年11月27日 19:22
+  </div>
+  <a class="back-link" href="../portal.html">← 返回小站合集</a>
+</section>
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="num">2,474</div>
+    <div class="label">累计入站用户</div>
+  </div>
+  <div class="stat-card">
+    <div class="num">2,253</div>
+    <div class="label">累计发帖数</div>
+  </div>
+  <div class="stat-card">
+    <div class="num">460</div>
+    <div class="label">单日入站（最高）</div>
+  </div>
+  <div class="stat-card">
+    <div class="num">121</div>
+    <div class="label">单日发帖（最高）</div>
+  </div>
+</div>
+<div class="legend" style="max-width:960px;margin:0 auto 48px;padding:16px 24px;">
+<div class="legend-item"><div class="legend-dot" style="background:#7c6af5;"></div>累计入站用户</div>
+<div class="legend-item"><div class="legend-dot" style="background:#4ecac8;"></div>单日入站用户</div>
+<div class="legend-item"><div class="legend-dot" style="background:#f5a623;"></div>累计发帖</div>
+<div class="legend-item"><div class="legend-dot" style="background:#ff6b6b;"></div>累计点赞</div>
+<div class="legend-item"><div class="legend-dot" style="background:#ffe66d;"></div>累计收藏</div>
+<div class="legend-item"><div class="legend-dot" style="background:#4ecdc4;"></div>累计评论</div>
+<div class="legend-item"><div class="legend-dot" style="background:#e85d75;"></div>单日发帖</div>
+<div class="legend-item"><div class="legend-dot" style="background:#a8e6cf;"></div>累计分享</div>
+<div class="legend-item"><div class="legend-dot" style="background:#fff;"></div>建站事件</div>
+<div class="legend-item"><div class="legend-dot" style="border:2px dashed #7b7b9a;background:transparent;"></div>待达成</div>
+</div>
+<div class="timeline-wrap">
+
+  <div class="tl-item right cat-found">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card founded-card">
+      <div class="tl-date">2025 · 11 · 27</div>
+      <div class="tl-title">🚀 &nbsp;小站正式开站</div>
+      <div class="tl-actual">一切从这里开始</div>
+    </div>
+  </div>
+
+  <div class="tl-item left cat-user">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2025 · 11 · 28</div>
+      <div class="tl-title">👥 &nbsp;累计入站用户突破 <span class="milestone-num">100</span> 人</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">214 人</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item right cat-user-day">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2025 · 11 · 28</div>
+      <div class="tl-title">⚡ &nbsp;单日入站用户突破 <span class="milestone-num">100</span> 人</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">460 人</span> &nbsp;·&nbsp; 🏆 峰值纪录</div>
+    </div>
+  </div>
+
+  <div class="tl-item left cat-post">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2025 · 11 · 30</div>
+      <div class="tl-title">📝 &nbsp;累计发帖突破 <span class="milestone-num">100</span> 篇</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">108 篇</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item right cat-like">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2025 · 12 · 03</div>
+      <div class="tl-title">👍 &nbsp;累计点赞突破 <span class="milestone-num">1,000</span> 次</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">1,190 次</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item left cat-like">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2025 · 12 · 05</div>
+      <div class="tl-title">👍 &nbsp;累计点赞突破 <span class="milestone-num">2,233</span> 次</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">2,270 次</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item right cat-fav">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2025 · 12 · 06</div>
+      <div class="tl-title">⭐ &nbsp;累计收藏突破 <span class="milestone-num">1,000</span> 次</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">1,305 次</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item left cat-comment">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2025 · 12 · 09</div>
+      <div class="tl-title">💬 &nbsp;累计评论突破 <span class="milestone-num">1,000</span> 条</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">1,071 条</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item right cat-fav">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2025 · 12 · 10</div>
+      <div class="tl-title">⭐ &nbsp;累计收藏突破 <span class="milestone-num">2,233</span> 次</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">2,379 次</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item left cat-user">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2025 · 12 · 12</div>
+      <div class="tl-title">👥 &nbsp;累计入站用户突破 <span class="milestone-num">1,000</span> 人</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">1,048 人</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item right cat-like">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2025 · 12 · 28</div>
+      <div class="tl-title">👍 &nbsp;累计点赞突破 <span class="milestone-num">10,000</span> 次</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">10,002 次</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item left cat-comment">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2026 · 01 · 07</div>
+      <div class="tl-title">💬 &nbsp;累计评论突破 <span class="milestone-num">2,233</span> 条</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">2,233 条</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item right cat-user">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2026 · 01 · 17</div>
+      <div class="tl-title">👥 &nbsp;累计入站用户突破 <span class="milestone-num">2,233</span> 人</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">2,474 人</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item left cat-post-day">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2026 · 01 · 22</div>
+      <div class="tl-title">🔥 &nbsp;单日发帖突破 <span class="milestone-num">100</span> 篇</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">121 篇</span> &nbsp;·&nbsp; 🏆 峰值纪录</div>
+    </div>
+  </div>
+
+  <div class="tl-item right cat-fav">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2026 · 01 · 22</div>
+      <div class="tl-title">⭐ &nbsp;累计收藏突破 <span class="milestone-num">10,000</span> 次</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">13,290 次</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item left cat-post">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2026 · 01 · 24</div>
+      <div class="tl-title">📝 &nbsp;累计发帖突破 <span class="milestone-num">1,000</span> 篇</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">1,017 篇</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item right cat-comment">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2026 · 01 · 24</div>
+      <div class="tl-title">💬 &nbsp;累计评论突破 <span class="milestone-num">10,000</span> 条</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">10,898 条</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item left cat-share">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2026 · 01 · 24</div>
+      <div class="tl-title">🔗 &nbsp;累计分享突破 <span class="milestone-num">1,000</span> 次</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">1,134 次</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item right cat-fav">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2026 · 01 · 27</div>
+      <div class="tl-title">⭐ &nbsp;累计收藏突破 <span class="milestone-num">50,000</span> 次</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">58,815 次</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item left cat-like">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2026 · 01 · 29</div>
+      <div class="tl-title">👍 &nbsp;累计点赞突破 <span class="milestone-num">50,000</span> 次</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">51,053 次</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item right cat-fav">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2026 · 01 · 31</div>
+      <div class="tl-title">⭐ &nbsp;累计收藏突破 <span class="milestone-num">100,000</span> 次</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">106,859 次</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item left cat-share">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2026 · 02 · 03</div>
+      <div class="tl-title">🔗 &nbsp;累计分享突破 <span class="milestone-num">2,233</span> 次</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">2,240 次</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item right cat-like">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2026 · 02 · 07</div>
+      <div class="tl-title">👍 &nbsp;累计点赞突破 <span class="milestone-num">100,000</span> 次</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">103,721 次</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item left cat-post">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2026 · 02 · 12</div>
+      <div class="tl-title">📝 &nbsp;累计发帖突破 <span class="milestone-num">2,233</span> 篇</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">2,253 篇</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item right cat-comment">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2026 · 02 · 27</div>
+      <div class="tl-title">💬 &nbsp;累计评论突破 <span class="milestone-num">50,000</span> 条</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">50,753 条</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item left cat-like">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">2026 · 03 · 02</div>
+      <div class="tl-title">👍 &nbsp;累计点赞突破 <span class="milestone-num">200,000</span> 次</div>
+      <div class="tl-actual">🎯 当日实际：<span class="actual-val">201,650 次</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item tl-pending right cat-user">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">待达成</div>
+      <div class="tl-title">👥 &nbsp;累计入站用户突破 <span class="milestone-num" style="color:var(--muted);">10,000</span> 人</div>
+      <div class="pending-badge">⏳ 当前进度：<strong>2,474</strong> 人 · 完成 25%</div>
+    </div>
+  </div>
+
+  <div class="tl-item tl-pending left cat-user-day">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">待达成</div>
+      <div class="tl-title">⚡ &nbsp;单日入站用户突破 <span class="milestone-num" style="color:var(--muted);">1,000</span> 人</div>
+      <div class="pending-badge">⏳ 当前进度：<strong>460</strong> 人 · 完成 46%</div>
+    </div>
+  </div>
+
+  <div class="tl-item tl-pending right cat-post">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">待达成</div>
+      <div class="tl-title">📝 &nbsp;累计发帖突破 <span class="milestone-num" style="color:var(--muted);">10,000</span> 篇</div>
+      <div class="pending-badge">⏳ 当前进度：<strong>2,253</strong> 篇 · 完成 23%</div>
+    </div>
+  </div>
+
+  <div class="tl-item tl-pending left cat-post-day">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">待达成</div>
+      <div class="tl-title">🔥 &nbsp;单日发帖突破 <span class="milestone-num" style="color:var(--muted);">1,000</span> 篇</div>
+      <div class="pending-badge">⏳ 当前进度：<strong>121</strong> 篇 · 完成 12%</div>
+    </div>
+  </div>
+
+  <div class="tl-item tl-pending right cat-comment">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">待达成</div>
+      <div class="tl-title">💬 &nbsp;累计评论突破 <span class="milestone-num" style="color:var(--muted);">100,000</span> 条</div>
+      <div class="pending-badge">⏳ 当前进度：<strong>50,753</strong> 条 · 完成 51%</div>
+    </div>
+  </div>
+
+  <div class="tl-item tl-pending left cat-like">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">待达成</div>
+      <div class="tl-title">👍 &nbsp;累计点赞突破 <span class="milestone-num" style="color:var(--muted);">500,000</span> 次</div>
+      <div class="pending-badge">⏳ 当前进度：<strong>201,650</strong> 次 · 完成 40%</div>
+    </div>
+  </div>
+
+  <div class="tl-item tl-pending right cat-share">
+    <div class="tl-node"><div class="node-dot"></div></div>
+    <div class="tl-card">
+      <div class="tl-date">待达成</div>
+      <div class="tl-title">🔗 &nbsp;累计分享突破 <span class="milestone-num" style="color:var(--muted);">10,000</span> 次</div>
+      <div class="pending-badge">⏳ 当前进度：<strong>2,240</strong> 次 · 完成 22%</div>
+    </div>
+  </div>
+
+</div>
+<footer>
+  <span>明日方舟：终末地 小站</span> &nbsp;·&nbsp; 成长里程碑
+</footer>
+</body>
+</html>

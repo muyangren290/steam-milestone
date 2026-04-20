@@ -6,378 +6,561 @@
   <title>小站里程碑 · 合集</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg:      #1a1b2e;
-      --surface: #22233a;
-      --card:    #2a2b45;
-      --border:  rgba(255,255,255,0.10);
-      --accent1: #7c6af5;
-      --accent2: #4ecac8;
-      --accent3: #f5a623;
-      --accent4: #e85d75;
-      --text:    #eeeef8;
-      --muted:   #8f8fb0;
-      --glow1:   rgba(124,106,245,0.3);
-      --glow2:   rgba(78,202,200,0.25);
+      --bg: #1a1b2e; --surface: #22233a; --card: #2a2b45;
+      --border: rgba(255,255,255,0.10);
+      --accent1: #7c6af5; --accent2: #4ecac8;
+      --text: #eeeef8; --muted: #8f8fb0;
     }
-
     html { scroll-behavior: smooth; }
-
     body {
-      font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      font-family: 'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; overflow-x: hidden;
+      display: flex; flex-direction: column; align-items: center;
     }
-
-    /* ===== 背景光晕 ===== */
     .bg-deco {
       position: fixed; inset: 0; pointer-events: none; z-index: 0;
       background:
         radial-gradient(ellipse 60% 40% at 20% 20%, rgba(124,106,245,0.18) 0%, transparent 70%),
         radial-gradient(ellipse 50% 35% at 80% 80%, rgba(78,202,200,0.15) 0%, transparent 70%);
     }
-
-    /* ===== 主体容器 ===== */
     .container {
       position: relative; z-index: 1;
-      width: 100%; max-width: 860px;
+      width: 100%; max-width: 1080px;
       padding: 80px 24px 120px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 56px;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 48px;
     }
-
-    /* ===== Hero ===== */
     .hero {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 18px;
-      text-align: center;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 18px; text-align: center;
     }
-
     .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(124,106,245,0.12);
-      border: 1px solid rgba(124,106,245,0.3);
-      border-radius: 999px;
-      padding: 6px 18px;
-      font-size: 0.78rem;
-      color: var(--accent1);
-      letter-spacing: 0.04em;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(124,106,245,0.12); border: 1px solid rgba(124,106,245,0.3);
+      border-radius: 999px; padding: 6px 18px;
+      font-size: 0.78rem; color: var(--accent1); letter-spacing: 0.04em;
     }
-
-    .dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--accent1);
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: 0.5; transform: scale(1.4); }
-    }
-
+    .dot { width:7px;height:7px;border-radius:50%;background:var(--accent1);animation:pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
     .hero h1 {
-      font-size: clamp(2rem, 6vw, 3.4rem);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      line-height: 1.1;
+      font-size: clamp(2rem,6vw,3.4rem); font-weight: 800;
+      letter-spacing: -0.02em; line-height: 1.1;
       background: linear-gradient(135deg, #fff 20%, var(--accent1) 60%, var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-
-    .hero-sub {
-      font-size: 0.95rem;
-      color: var(--muted);
-      letter-spacing: 0.03em;
-    }
-
-    /* ===== 搜索框 ===== */
-    .search-wrap {
-      width: 100%;
-      max-width: 520px;
-      position: relative;
-    }
-
+    .hero-sub { font-size: 0.95rem; color: var(--muted); letter-spacing: 0.03em; }
+    .search-wrap { width: 100%; max-width: 520px; position: relative; }
     .search-wrap input {
-      width: 100%;
-      padding: 16px 56px 16px 22px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      color: var(--text);
-      font-size: 1rem;
-      font-family: inherit;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      caret-color: var(--accent1);
+      width: 100%; padding: 16px 56px 16px 22px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+      color: var(--text); font-size: 1rem; font-family: inherit; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s; caret-color: var(--accent1);
     }
-
     .search-wrap input::placeholder { color: var(--muted); }
-
-    .search-wrap input:focus {
-      border-color: rgba(124,106,245,0.5);
-      box-shadow: 0 0 0 3px rgba(124,106,245,0.12);
-    }
-
-    .search-icon {
-      position: absolute;
-      right: 18px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--muted);
-      pointer-events: none;
-      font-size: 1.1rem;
-    }
-
-    /* ===== 小站卡片列表 ===== */
+    .search-wrap input:focus { border-color: rgba(124,106,245,0.5); box-shadow: 0 0 0 3px rgba(124,106,245,0.12); }
+    .search-icon { position:absolute;right:18px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:1.1rem; }
     .stations-grid {
       width: 100%;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
     }
-
     .station-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 28px 26px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
+      background: var(--card); border: 1px solid var(--border); border-radius: 18px;
+      padding: 22px 20px; display: flex; flex-direction: column; gap: 10px;
+      cursor: pointer; text-decoration: none; color: inherit;
       transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
-
     .station-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
       background: linear-gradient(90deg, var(--c1), var(--c2));
-      border-radius: 18px 18px 0 0;
-      opacity: 0.85;
+      border-radius: 18px 18px 0 0; opacity: 0.85;
     }
-
     .station-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.35);
+      transform: translateY(-5px); box-shadow: 0 16px 40px rgba(0,0,0,0.35);
       border-color: rgba(255,255,255,0.18);
     }
-
     .card-icon {
-      width: 48px; height: 48px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.6rem;
-      background: rgba(255,255,255,0.05);
-      flex-shrink: 0;
+      width: 42px; height: 42px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; background: rgba(255,255,255,0.05); flex-shrink: 0;
     }
-
-    .card-name {
-      font-size: 1.15rem;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-    }
-
-    .card-desc {
-      font-size: 0.83rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .card-stats {
-      margin-top: auto;
-      display: flex;
-      gap: 14px;
-    }
-
+    .card-name { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em; }
+    .card-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+    .card-stats { margin-top: auto; display: flex; gap: 10px; }
     .stat-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background: rgba(255,255,255,0.05);
-      border-radius: 999px;
-      padding: 4px 12px;
-      font-size: 0.75rem;
-      color: var(--muted);
+      display: inline-flex; align-items: center; gap: 4px;
+      background: rgba(255,255,255,0.05); border-radius: 999px;
+      padding: 3px 10px; font-size: 0.72rem; color: var(--muted);
     }
-
-    .stat-pill span {
-      font-weight: 700;
-      color: var(--text);
-    }
-
+    .stat-pill span { font-weight: 700; color: var(--text); }
     .card-arrow {
-      position: absolute;
-      bottom: 22px; right: 22px;
-      font-size: 1rem;
-      color: var(--muted);
-      transition: transform 0.2s, color 0.2s;
+      position: absolute; bottom: 18px; right: 18px; font-size: 1rem;
+      color: var(--muted); transition: transform 0.2s, color 0.2s;
     }
-
-    .station-card:hover .card-arrow {
-      transform: translate(3px, -3px);
-      color: var(--text);
-    }
-
-    /* 隐藏（搜索过滤用）*/
+    .station-card:hover .card-arrow { transform: translate(3px, -3px); color: var(--text); }
     .station-card.hidden { display: none; }
-
-    /* ===== 无结果提示 ===== */
-    .no-result {
-      display: none;
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.95rem;
-      padding: 40px 0;
-    }
-
+    .no-result { display:none;text-align:center;color:var(--muted);font-size:0.95rem;padding:40px 0; }
     .no-result.show { display: block; }
-
-    /* ===== 底部 ===== */
+    .count-badge {
+      font-size: 0.85rem; color: var(--muted); letter-spacing: 0.03em;
+    }
+    .count-badge strong { color: var(--accent1); font-weight: 800; }
     footer {
-      position: relative; z-index: 1;
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.78rem;
-      padding-bottom: 40px;
-      letter-spacing: 0.03em;
+      position:relative;z-index:1;text-align:center;color:var(--muted);
+      font-size:0.78rem;padding-bottom:40px;letter-spacing:0.03em;
     }
-
-    /* ===== 响应式 ===== */
-    @media (max-width: 540px) {
-      .stations-grid { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 540px) { .stations-grid { grid-template-columns: 1fr 1fr; gap: 12px; } .station-card { padding: 16px 14px; } }
+    @media (max-width: 360px) { .stations-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
-
 <div class="bg-deco"></div>
-
 <div class="container">
-
-  <!-- Hero -->
   <div class="hero">
-    <div class="hero-badge">
-      <span class="dot"></span>
-      成长里程碑合集
-    </div>
+    <div class="hero-badge"><span class="dot"></span>成长里程碑合集</div>
     <h1>小站里程碑</h1>
     <p class="hero-sub">搜索或点击，进入对应小站的成长记录</p>
   </div>
-
-  <!-- 搜索框 -->
   <div class="search-wrap">
-    <input
-      type="text"
-      id="searchInput"
-      placeholder="搜索小站，例如：Steam、动画…"
-      autocomplete="off"
-    />
+    <input type="text" id="searchInput" placeholder="搜索小站，例如：Steam、艾尔登法环、Switch…" autocomplete="off" />
     <span class="search-icon">🔍</span>
   </div>
-
-  <!-- 小站卡片 -->
+  <div class="count-badge">共 <strong>45</strong> 个小站</div>
   <div class="stations-grid" id="stationsGrid">
 
-    <!-- Steam 小站 -->
-    <a
-      class="station-card"
-      href="./index.html"
-      style="--c1:#7c6af5;--c2:#4ecac8;"
-      data-keywords="steam 游戏 小站 steam小站 游戏社区"
-    >
+    <a class="station-card" href="./stations/Steam.html" style="--c1:#00b894;--c2:#0984e3;" data-keywords="Steam 小站 Steam">
       <div class="card-icon">🎮</div>
-      <div class="card-name">Steam 小站</div>
-      <div class="card-desc">游戏与动画同好的聚集地，一起聊游戏、种草、分享攻略。</div>
+      <div class="card-name">Steam</div>
+      <div class="card-desc">29 个里程碑已达成</div>
       <div class="card-stats">
-        <div class="stat-pill">用户 <span>1万+</span></div>
-        <div class="stat-pill">帖子 <span>1万+</span></div>
+        <div class="stat-pill">🎯 <span>29</span> 已达成</div>
       </div>
       <span class="card-arrow">↗</span>
     </a>
-
-    <!-- 占位卡片：即将上线 -->
-    <div
-      class="station-card"
-      style="--c1:#f5a623;--c2:#e85d75; cursor:default; opacity:0.45;"
-      data-keywords=""
-    >
+    <a class="station-card" href="./stations/明日方舟：终末地.html" style="--c1:#ff7675;--c2:#fd79a8;" data-keywords="明日方舟：终末地 小站 明日方舟：终末地">
       <div class="card-icon">✨</div>
-      <div class="card-name" style="color:var(--muted);">更多小站</div>
-      <div class="card-desc">敬请期待，新的小站正在成长中……</div>
+      <div class="card-name">明日方舟：终末地</div>
+      <div class="card-desc">25 个里程碑已达成</div>
       <div class="card-stats">
-        <div class="stat-pill">即将上线</div>
+        <div class="stat-pill">🎯 <span>25</span> 已达成</div>
       </div>
-    </div>
-
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/东方Project.html" style="--c1:#b5838d;--c2:#e5989b;" data-keywords="东方Project 小站 东方Project">
+      <div class="card-icon">✨</div>
+      <div class="card-name">东方Project</div>
+      <div class="card-desc">23 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>23</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/凡人修仙传动画.html" style="--c1:#e17055;--c2:#d63031;" data-keywords="凡人修仙传动画 小站 凡人修仙传动画">
+      <div class="card-icon">🎬</div>
+      <div class="card-name">凡人修仙传动画</div>
+      <div class="card-desc">22 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>22</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/葬送的芙莉莲.html" style="--c1:#636e72;--c2:#2d3436;" data-keywords="葬送的芙莉莲 小站 葬送的芙莉莲">
+      <div class="card-icon">✨</div>
+      <div class="card-name">葬送的芙莉莲</div>
+      <div class="card-desc">22 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>22</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/月亮计划.html" style="--c1:#7209b7;--c2:#f72585;" data-keywords="月亮计划 小站 月亮计划">
+      <div class="card-icon">✨</div>
+      <div class="card-name">月亮计划</div>
+      <div class="card-desc">18 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>18</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/鸣潮.html" style="--c1:#00b4d8;--c2:#0077b6;" data-keywords="鸣潮 小站 鸣潮">
+      <div class="card-icon">🎮</div>
+      <div class="card-name">鸣潮</div>
+      <div class="card-desc">17 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>17</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/漫展.html" style="--c1:#fab1a0;--c2:#ffeaa7;" data-keywords="漫展 小站 漫展">
+      <div class="card-icon">✨</div>
+      <div class="card-name">漫展</div>
+      <div class="card-desc">16 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>16</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/Fate.html" style="--c1:#2ec4b6;--c2:#cbf3f0;" data-keywords="Fate 小站 Fate">
+      <div class="card-icon">✨</div>
+      <div class="card-name">Fate</div>
+      <div class="card-desc">16 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>16</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/特摄.html" style="--c1:#ef476f;--c2:#ffd166;" data-keywords="特摄 小站 特摄">
+      <div class="card-icon">✨</div>
+      <div class="card-name">特摄</div>
+      <div class="card-desc">16 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>16</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/Undertale.html" style="--c1:#3d405b;--c2:#81b29a;" data-keywords="Undertale 小站 Undertale">
+      <div class="card-icon">✨</div>
+      <div class="card-name">Undertale</div>
+      <div class="card-desc">16 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>16</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/逃离鸭科夫.html" style="--c1:#dfe6e9;--c2:#b2bec3;" data-keywords="逃离鸭科夫 小站 逃离鸭科夫">
+      <div class="card-icon">✨</div>
+      <div class="card-name">逃离鸭科夫</div>
+      <div class="card-desc">15 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>15</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/新三国宇宙.html" style="--c1:#e84393;--c2:#fd79a8;" data-keywords="新三国宇宙 小站 新三国宇宙">
+      <div class="card-icon">✨</div>
+      <div class="card-name">新三国宇宙</div>
+      <div class="card-desc">15 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>15</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/BanGDream.html" style="--c1:#560bad;--c2:#9d4edd;" data-keywords="BanGDream 小站 BanGDream">
+      <div class="card-icon">🎬</div>
+      <div class="card-name">BanGDream</div>
+      <div class="card-desc">15 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>15</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/星露谷物语.html" style="--c1:#55efc4;--c2:#81ecec;" data-keywords="星露谷物语 小站 星露谷物语">
+      <div class="card-icon">🎮</div>
+      <div class="card-name">星露谷物语</div>
+      <div class="card-desc">14 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>14</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/OpenClaw.html" style="--c1:#6a0572;--c2:#ab83a1;" data-keywords="OpenClaw 小站 OpenClaw">
+      <div class="card-icon">✨</div>
+      <div class="card-name">OpenClaw</div>
+      <div class="card-desc">14 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>14</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/洛克王国：世界.html" style="--c1:#3a86ff;--c2:#8338ec;" data-keywords="洛克王国：世界 小站 洛克王国：世界">
+      <div class="card-icon">✨</div>
+      <div class="card-name">洛克王国：世界</div>
+      <div class="card-desc">14 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>14</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/明末：渊虚之羽.html" style="--c1:#6c5ce7;--c2:#00cec9;" data-keywords="明末：渊虚之羽 小站 明末：渊虚之羽">
+      <div class="card-icon">🎮</div>
+      <div class="card-name">明末：渊虚之羽</div>
+      <div class="card-desc">13 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>13</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/魔法少女的魔女审判.html" style="--c1:#e76f51;--c2:#f4a261;" data-keywords="魔法少女的魔女审判 小站 魔法少女的魔女审判">
+      <div class="card-icon">✨</div>
+      <div class="card-name">魔法少女的魔女审判</div>
+      <div class="card-desc">13 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>13</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/模型.html" style="--c1:#264653;--c2:#2a9d8f;" data-keywords="模型 小站 模型">
+      <div class="card-icon">✨</div>
+      <div class="card-name">模型</div>
+      <div class="card-desc">13 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>13</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/光之美少女.html" style="--c1:#023047;--c2:#219ebc;" data-keywords="光之美少女 小站 光之美少女">
+      <div class="card-icon">✨</div>
+      <div class="card-name">光之美少女</div>
+      <div class="card-desc">12 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>12</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/F1.html" style="--c1:#fb8500;--c2:#ffb703;" data-keywords="F1 小站 F1">
+      <div class="card-icon">🎮</div>
+      <div class="card-name">F1</div>
+      <div class="card-desc">12 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>12</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/艾尔登法环.html" style="--c1:#7c6af5;--c2:#4ecac8;" data-keywords="艾尔登法环 小站 艾尔登法环">
+      <div class="card-icon">🎮</div>
+      <div class="card-name">艾尔登法环</div>
+      <div class="card-desc">10 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>10</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/金牌得主.html" style="--c1:#d62828;--c2:#f77f00;" data-keywords="金牌得主 小站 金牌得主">
+      <div class="card-icon">✨</div>
+      <div class="card-name">金牌得主</div>
+      <div class="card-desc">9 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>9</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/战锤.html" style="--c1:#7c6af5;--c2:#4ecac8;" data-keywords="战锤 小站 战锤">
+      <div class="card-icon">🎮</div>
+      <div class="card-name">战锤</div>
+      <div class="card-desc">8 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>8</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/AI创作互助.html" style="--c1:#fee440;--c2:#f15bb5;" data-keywords="AI创作互助 小站 AI创作互助">
+      <div class="card-icon">🤖</div>
+      <div class="card-name">AI创作互助</div>
+      <div class="card-desc">8 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>8</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/轨迹.html" style="--c1:#a29bfe;--c2:#74b9ff;" data-keywords="轨迹 小站 轨迹">
+      <div class="card-icon">🎮</div>
+      <div class="card-name">轨迹</div>
+      <div class="card-desc">7 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>7</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/火凤燎原.html" style="--c1:#6d6875;--c2:#b5838d;" data-keywords="火凤燎原 小站 火凤燎原">
+      <div class="card-icon">✨</div>
+      <div class="card-name">火凤燎原</div>
+      <div class="card-desc">7 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>7</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/柚子社.html" style="--c1:#00f5d4;--c2:#00bbf9;" data-keywords="柚子社 小站 柚子社">
+      <div class="card-icon">🎬</div>
+      <div class="card-name">柚子社</div>
+      <div class="card-desc">7 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>7</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/GIRLS BAND CRY.html" style="--c1:#d00000;--c2:#e85d04;" data-keywords="GIRLS BAND CRY 小站 GIRLS BAND CRY">
+      <div class="card-icon">✨</div>
+      <div class="card-name">GIRLS BAND CRY</div>
+      <div class="card-desc">7 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>7</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/咒术回战.html" style="--c1:#ff9f1c;--c2:#ffbf69;" data-keywords="咒术回战 小站 咒术回战">
+      <div class="card-icon">✨</div>
+      <div class="card-name">咒术回战</div>
+      <div class="card-desc">6 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>6</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/JOJO的奇妙冒险.html" style="--c1:#4cc9f0;--c2:#4361ee;" data-keywords="JOJO的奇妙冒险 小站 JOJO的奇妙冒险">
+      <div class="card-icon">✨</div>
+      <div class="card-name">JOJO的奇妙冒险</div>
+      <div class="card-desc">6 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>6</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/燕云十六声.html" style="--c1:#5f0f40;--c2:#9a031e;" data-keywords="燕云十六声 小站 燕云十六声">
+      <div class="card-icon">✨</div>
+      <div class="card-name">燕云十六声</div>
+      <div class="card-desc">5 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>5</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/凹凸世界.html" style="--c1:#0a0908;--c2:#495057;" data-keywords="凹凸世界 小站 凹凸世界">
+      <div class="card-icon">🎬</div>
+      <div class="card-name">凹凸世界</div>
+      <div class="card-desc">5 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>5</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/Re：从零开始的异世界生活.html" style="--c1:#8ecae6;--c2:#219ebc;" data-keywords="Re：从零开始的异世界生活 小站 Re：从零开始的异世界生活">
+      <div class="card-icon">🎬</div>
+      <div class="card-name">Re：从零开始的异世界生活</div>
+      <div class="card-desc">5 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>5</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/超电磁实验室.html" style="--c1:#386641;--c2:#6a994e;" data-keywords="超电磁实验室 小站 超电磁实验室">
+      <div class="card-icon">🤖</div>
+      <div class="card-name">超电磁实验室</div>
+      <div class="card-desc">3 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>3</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/大巴扎.html" style="--c1:#2d6a4f;--c2:#95d5b2;" data-keywords="大巴扎 小站 大巴扎">
+      <div class="card-icon">✨</div>
+      <div class="card-name">大巴扎</div>
+      <div class="card-desc">3 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>3</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/宝可梦Pokopia.html" style="--c1:#06d6a0;--c2:#118ab2;" data-keywords="宝可梦Pokopia 小站 宝可梦Pokopia">
+      <div class="card-icon">✨</div>
+      <div class="card-name">宝可梦Pokopia</div>
+      <div class="card-desc">2 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>2</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/EVA.html" style="--c1:#1b4332;--c2:#52b788;" data-keywords="EVA 小站 EVA">
+      <div class="card-icon">🎬</div>
+      <div class="card-name">EVA</div>
+      <div class="card-desc">2 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>2</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/解限机.html" style="--c1:#fd79a8;--c2:#fdcb6e;" data-keywords="解限机 小站 解限机">
+      <div class="card-icon">🎮</div>
+      <div class="card-name">解限机</div>
+      <div class="card-desc">1 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>1</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/海贼王.html" style="--c1:#ffb4a2;--c2:#ffcdb2;" data-keywords="海贼王 小站 海贼王">
+      <div class="card-icon">✨</div>
+      <div class="card-name">海贼王</div>
+      <div class="card-desc">1 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>1</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/王者荣耀世界.html" style="--c1:#c9184a;--c2:#ff4d6d;" data-keywords="王者荣耀世界 小站 王者荣耀世界">
+      <div class="card-icon">🎮</div>
+      <div class="card-name">王者荣耀世界</div>
+      <div class="card-desc">1 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>1</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/Switch.html" style="--c1:#f5a623;--c2:#e85d75;" data-keywords="Switch 小站 Switch">
+      <div class="card-icon">🎮</div>
+      <div class="card-name">Switch</div>
+      <div class="card-desc">0 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>0</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/影游.html" style="--c1:#073b4c;--c2:#118ab2;" data-keywords="影游 小站 影游">
+      <div class="card-icon">✨</div>
+      <div class="card-name">影游</div>
+      <div class="card-desc">0 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>0</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+    <a class="station-card" href="./stations/虹猫蓝兔.html" style="--c1:#7b2cbf;--c2:#c77dff;" data-keywords="虹猫蓝兔 小站 虹猫蓝兔">
+      <div class="card-icon">🎬</div>
+      <div class="card-name">虹猫蓝兔</div>
+      <div class="card-desc">0 个里程碑已达成</div>
+      <div class="card-stats">
+        <div class="stat-pill">🎯 <span>0</span> 已达成</div>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
   </div>
-
-  <!-- 无结果 -->
   <div class="no-result" id="noResult">没有找到匹配的小站，换个关键词试试？</div>
-
 </div>
-
 <footer>© 2025 小站里程碑合集</footer>
-
 <script>
   const input = document.getElementById('searchInput');
   const cards = document.querySelectorAll('.station-card[data-keywords]');
   const noResult = document.getElementById('noResult');
-
   let visibleLinks = [];
-
   function doFilter() {
     const q = input.value.trim().toLowerCase();
     visibleLinks = [];
-
     cards.forEach(card => {
-      const kw = card.dataset.keywords || '';
+      const kw = (card.dataset.keywords || '').toLowerCase();
       const name = card.querySelector('.card-name')?.textContent.toLowerCase() || '';
-      const desc = card.querySelector('.card-desc')?.textContent.toLowerCase() || '';
-      const hit = !q || kw.includes(q) || name.includes(q) || desc.includes(q);
-
-      // 占位卡片（无 href）不参与搜索显示
-      if (!card.hasAttribute('href') && q) {
-        card.classList.add('hidden');
-      } else {
-        card.classList.toggle('hidden', !hit);
-        if (hit && card.hasAttribute('href')) visibleLinks.push(card);
-      }
+      const hit = !q || kw.includes(q) || name.includes(q);
+      card.classList.toggle('hidden', !hit);
+      if (hit) visibleLinks.push(card);
     });
-
-    // 没有结果时显示占位也不算
     noResult.classList.toggle('show', visibleLinks.length === 0 && q !== '');
   }
-
   input.addEventListener('input', doFilter);
-
-  // 回车：如果只剩一个结果则直接跳转；多个结果跳转第一个
   input.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && visibleLinks.length > 0) {
-      window.location.href = visibleLinks[0].href;
-    }
+    if (e.key === 'Enter' && visibleLinks.length > 0) window.location.href = visibleLinks[0].href;
   });
 </script>
 </body>

@@ -2,3 +2,10 @@ node_modules/
 server.js
 milestone.html
 .workbuddy/
+read_xlsx.js
+read_xlsx2.js
+read_xlsx3.js
+generate.js
+generate_portal.js
+index.zip
+stations/_portal_data.json
