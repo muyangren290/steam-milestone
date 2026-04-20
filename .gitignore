@@ -9,3 +9,5 @@ generate.js
 generate_portal.js
 index.zip
 stations/_portal_data.json
+check.js
+check_names.js
